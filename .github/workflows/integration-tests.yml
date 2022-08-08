@@ -257,8 +257,8 @@ jobs:
           key: integration-test-cache-{hash}
           restore-keys: |
             integration-test-cache-
-      - name: Test Mercury state upgrade
-        run: tests/run-upgrade-test.sh v1.5.2
+      - name: Test enterupgradenamestate upgrade
+        run: tests/run-upgrade-test.sh v1.6.5
   ibc_auto_forward_test:
     runs-on: ubuntu-latest
     needs: happy-path-geth
