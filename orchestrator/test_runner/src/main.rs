@@ -16,6 +16,7 @@ use crate::ibc_auto_forward::ibc_auto_forward_test;
 use crate::ibc_metadata::ibc_metadata_proposal_test;
 use crate::invalid_events::invalid_events;
 use crate::pause_bridge::pause_bridge_test;
+use crate::send_to_eth_fees::send_to_eth_fees_test;
 use crate::signature_slashing::signature_slashing_test;
 use crate::slashing_delegation::slashing_delegation_test;
 use crate::tx_cancel::send_to_eth_and_cancel;
@@ -60,6 +61,7 @@ mod orch_keys;
 mod orch_only;
 mod pause_bridge;
 mod relay_market;
+mod send_to_eth_fees;
 mod signature_slashing;
 mod slashing_delegation;
 mod transaction_stress_test;
@@ -208,7 +210,7 @@ pub async fn main() {
     let keys = get_keys();
     // keys for the IBC chain connected to the main test chain
     let (ibc_keys, ibc_phrases) = parse_ibc_validator_keys();
-
+send_to_eth_fees_test
     // if we detect this env var we are only deploying contracts, do that then exit.
     if should_deploy_contracts() {
         info!("test-runner in contract deploying mode, deploying contracts, then exiting");
@@ -501,6 +503,9 @@ pub async fn main() {
                 erc20_addresses,
             )
             .await;
+            return;
+        } else if test_type == "SEND_TO_ETH_FEES" {
+            send_to_eth_fees_test(&web30, &contact, grpc_client, keys, ibc_keys, gravity_address, erc20_addresses).await;
             return;
         } else if test_type == "RUN_ORCH_ONLY" {
             orch_only_test(keys, gravity_address).await;
