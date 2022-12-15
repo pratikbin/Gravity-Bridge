@@ -210,7 +210,6 @@ pub async fn main() {
     let keys = get_keys();
     // keys for the IBC chain connected to the main test chain
     let (ibc_keys, ibc_phrases) = parse_ibc_validator_keys();
-send_to_eth_fees_test
     // if we detect this env var we are only deploying contracts, do that then exit.
     if should_deploy_contracts() {
         info!("test-runner in contract deploying mode, deploying contracts, then exiting");
@@ -505,7 +504,15 @@ send_to_eth_fees_test
             .await;
             return;
         } else if test_type == "SEND_TO_ETH_FEES" {
-            send_to_eth_fees_test(&web30, &contact, grpc_client, keys, ibc_keys, gravity_address, erc20_addresses).await;
+            send_to_eth_fees_test(
+                &web30,
+                &contact,
+                grpc_client,
+                keys,
+                gravity_address,
+                erc20_addresses,
+            )
+            .await;
             return;
         } else if test_type == "RUN_ORCH_ONLY" {
             orch_only_test(keys, gravity_address).await;
